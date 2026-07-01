@@ -37,11 +37,11 @@ class CMV_Shortcodes {
 		    <div class="client-login__card p-4 mx-auto rounded-3 position-relative">
 		        <div class="client-login__header text-center mb-4">
 		            <h2 class="client-login__title fw-bold text-dark mb-1">
-		                <?php echo esc_html( 'Client Login' ); ?>
+		                <?php echo esc_html__( 'Client Login', 'sms' ); ?>
 		            </h2>
 
 		            <p class="client-login__subtitle text-muted fs-6">
-		                <?php echo esc_html( 'Sign in to access your files' ); ?>
+		                <?php echo esc_html__( 'Sign in to access your files', 'sms' ); ?>
 		            </p>
 		        </div>
 
@@ -49,82 +49,94 @@ class CMV_Shortcodes {
 				<div class="client-login__alert client-login__alert--<?php echo esc_attr( $flash['type'] ); ?> mb-3">
         			<?php echo esc_html( $flash['message'] ); ?>
 				</div>
-			<?php endif; ?>
+				<?php endif; ?>
 
 		        <form method="post" class="client-login__form d-flex flex-column gap-3" id="client-login-form" novalidate>
 
-		            <?php wp_nonce_field( 'cmv_login', 'cmv_login_nonce' ); ?>
+				    <?php wp_nonce_field( 'cmv_login', 'cmv_login_nonce' ); ?>
 
-		            <div class="client-login__field d-flex flex-column">
-		                <label class="fw-bold text-dark mb-1 small text-uppercase" for="client-login__username">
-			                    <?php echo esc_html__( 'Username or Email', 'sms' ); ?>
+				    <div class="client-login__field d-flex flex-column">
+				        <label class="fw-bold text-dark mb-1 small text-uppercase" for="username">
+				            <?php echo esc_html__( 'Username or Email', 'sms' ); ?>
+				        </label>
 
-		                <input
-		                    type="text"
-		                    id="username"
-		                    name="username"
-		                    class="client-login__input rounded-2 py-2 px-3"
-		                    value="<?php echo esc_attr( $_POST['username'] ?? '' ); ?>"
-		                    autocomplete="username"
-		                    required
-		                >
+				        <input
+				            type="text"
+				            id="username"
+				            name="username"
+				            class="client-login__input rounded-2 py-2 px-3"
+				            value="<?php echo esc_attr( $_POST['username'] ?? '' ); ?>"
+				            autocomplete="username"
+				            required
+				        >
 
-		                <span class="client-login__error text-danger small" id="err-user"></span>
-		            </div>
+				        <span class="client-login__error text-danger small" id="err-user"></span>
+				    </div>
 
-		            <div class="client-login__field d-flex flex-column">
-		                <label class="fw-bold text-dark mb-1 small text-uppercase" for="client-login__password">
-			                    <?php echo esc_html__( 'Password', 'sms' ); ?>
-			                </label>
-		                    <input
-		                        type="password"
-		                        id="password"
-		                        name="password"
-		                        class="client-login__input rounded-2 py-2 px-3"
-		                        autocomplete="current-password"
-		                        required
-		                    >
+				    <div class="client-login__field d-flex flex-column">
+				        <label class="fw-bold text-dark mb-1 small text-uppercase" for="password">
+				            <?php echo esc_html__( 'Password', 'sms' ); ?>
+				        </label>
 
-		                    <button
-							    type="button"
-							    class="client-login__toggle bg-transparent border-0"
-							    aria-label="Show password">
-							    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/eye-off.svg' ); ?>" alt="" aria-hidden="true">
-							</button>
+				        <div class="position-relative">
+				            <input
+				                type="password"
+				                id="password"
+				                name="password"
+				                class="client-login__input rounded-2 py-2 px-3"
+				                autocomplete="current-password"
+				                required
+				            >
 
-		                </div>
+				            <button
+				                type="button"
+				                class="client-login__toggle bg-transparent border-0"
+				                aria-label="<?php esc_attr_e( 'Show password', 'sms' ); ?>"
+				            >
+				                <img
+				                    src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/eye-off.svg' ); ?>"
+				                    alt=""
+				                    aria-hidden="true"
+				                >
+				            </button>
+				        </div>
 
-		                <span class="client-login__error text-danger small" id="err-pass"></span>
-		            </div>
+				        <span class="client-login__error text-danger small" id="err-pass"></span>
+				    </div>
 
-		            <div class="client-login__options d-flex justify-content-start align-items-center mt-1">
+				    <div class="client-login__options">
 
-		                <div class="flex-fill">
-							<label class="client-login__remember d-flex align-items-center gap-2 small text-muted">
+					    <div class="flex-fill">
+					        <label class="client-login__remember">
+					            <input
+					                type="checkbox"
+					                name="remember"
+					                value="1"
+					                class="mt-0"
+					            >
+					            <?php echo esc_html__( 'Remember me', 'sms' ); ?>
+					        </label>
+					    </div>
 
-		                	    <input
-		                	        type="checkbox"
-		                	        name="remember"
-		                	        value="1"
-		                	        class="mt-0"
-		                	    >
-		                	    <?php echo esc_html("Remember me"); ?>
-		                	</label>
-						</div>	
-						<div class="flex-fill text-end">
-							<a href="<?php echo esc_url( sms_cmv_page_url( 'forgot-password' ) ); ?>"
-								class="client-login__link small text-decoration-none">
-								<?php echo esc_html__( 'Forgot password?', 'sms' ); ?>
-							</a>
-						</div>
+					    <div class="flex-fill text-end">
+					        <a
+					            href="<?php echo esc_url( sms_cmv_page_url( 'forgot-password' ) ); ?>"
+					            class="client-login__link small text-decoration-none"
+					        >
+					            <?php echo esc_html__( 'Forgot password?', 'sms' ); ?>
+					        </a>
+					    </div>
 
-		            </div>
+					</div>
 
-		            <button
-		                type="submit"
-		                class="client-login__button client-login__button--primary btn text-white py-2 rounded-2 fw-bold w-100 mt-2"
-		            >
-			                <?php echo esc_html__( 'Log In', 'sms' ); ?>
+				    <button
+				        type="submit"
+				        class="client-login__button client-login__button--primary btn text-white py-2 rounded-2 fw-bold w-100 mt-2"
+				    >
+				        <?php echo esc_html__( 'Log In', 'sms' ); ?>
+				    </button>
+
+				</form>
 		    </div>
 		</div>
 		<?php return ob_get_clean();
@@ -181,7 +193,7 @@ class CMV_Shortcodes {
 
 		if ( empty( $key ) || empty( $login ) ) {
 			return sprintf(
-				'<div class="cmv-wrap py-5"><div class="cmv-card shadow-lg p-4 mx-auto rounded-3 border-danger">%s <a href="%s" class="cmv-link fw-bold">%s</a>.</div></div></div>',
+				'<div class="cmv-wrap py-5"><div class="cmv-card shadow-lg p-4 mx-auto rounded-3 border-danger">%s <a href="%s" class="cmv-link fw-bold">%s</a>.</div></div>',
 				esc_html__( 'Invalid reset link. Please', 'sms' ),
 				esc_url( CMV_Auth::page_url( 'forgot-password' ) ),
 				esc_html__( 'request a new one', 'sms' )
@@ -369,7 +381,7 @@ class CMV_Shortcodes {
 							$badge = '<span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-3 py-2 rounded">DOC</span>';
 						} else {
 							$badge = '<span class="fs-1 text-muted">&#128196;</span>';
-						}   $badge = '<span class="fs-1 text-muted">&#128196;</span>';
+						}
 				?>
 				<div class="media-portal__files--item col">
 					<div class="media-portal__files--card h-100 shadow-sm border border-light rounded-3 overflow-hidden position-relative">
@@ -480,6 +492,7 @@ class CMV_Shortcodes {
 
     if (!$file_url) {
         return '<div class="alert alert-danger">' . esc_html__( 'File not found.', 'sms' ) . '</div>';
+	}
 
     $mime = get_post_mime_type($attachment_id);
 
@@ -574,7 +587,6 @@ class CMV_Shortcodes {
 
     <?php
     return ob_get_clean();
-}
 }
 }
 function sms_cmv_get_user_categories( $user_id ) {
