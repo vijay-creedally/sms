@@ -136,19 +136,19 @@ class CMV_Admin {
 		$total_media = (int) wp_count_posts( 'attachment' )->inherit;
 		?>
 		<div class="wrap cmv-admin-wrap">
-			<h1 class="cmv-admin-title"><span class="dashicons dashicons-lock"></span> Client Media Vault</h1>
-			<p class="description">Assign media files to clients from the Media Library. Open any attachment and use the <strong>Assigned Clients</strong> and <strong>Media Category</strong> fields.</p>
+			<h1 class="cmv-admin-title"><span class="dashicons dashicons-lock"></span> <?php echo esc_html__( 'Client Media Vault', 'sms' ); ?></h1>
+			<p class="description"><?php echo wp_kses_post( sprintf( __( 'Assign media files to clients from the Media Library. Open any attachment and use the <strong>%s</strong> and <strong>%s</strong> fields.', 'sms' ), __( 'Assigned Clients', 'sms' ), __( 'Media Category', 'sms' ) ) ); ?></p>
 
 			<div class="cmv-stat-cards">
 				<div class="cmv-stat-card">
 					<div class="cmv-stat-icon dashicons dashicons-groups"></div>
 					<div class="cmv-stat-body">
 						<span class="cmv-stat-num"><?php echo count( $clients ); ?></span>
-						<span class="cmv-stat-label">Client Users</span>
+						<span class="cmv-stat-label"><?php echo esc_html__( 'Client Users', 'sms' ); ?></span>
 					</div>
 					<div class="cmv-stat-actions">
-						<a href="<?php echo esc_url( admin_url( 'users.php?role=client' ) ); ?>" class="button">Manage</a>
-						<a href="<?php echo esc_url( admin_url( 'user-new.php' ) ); ?>" class="button button-primary">+ Add Client</a>
+						<a href="<?php echo esc_url( admin_url( 'users.php?role=client' ) ); ?>" class="button"><?php echo esc_html__( 'Manage', 'sms' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'user-new.php' ) ); ?>" class="button button-primary">+ <?php echo esc_html__( 'Add Client', 'sms' ); ?></a>
 					</div>
 				</div>
 
@@ -156,10 +156,10 @@ class CMV_Admin {
 					<div class="cmv-stat-icon dashicons dashicons-admin-media"></div>
 					<div class="cmv-stat-body">
 						<span class="cmv-stat-num"><?php echo $total_media; ?></span>
-						<span class="cmv-stat-label">Media Files</span>
+						<span class="cmv-stat-label"><?php echo esc_html__( 'Media Files', 'sms' ); ?></span>
 					</div>
 					<div class="cmv-stat-actions">
-						<a href="<?php echo esc_url( admin_url( 'upload.php' ) ); ?>" class="button">Media Library</a>
+						<a href="<?php echo esc_url( admin_url( 'upload.php' ) ); ?>" class="button"><?php echo esc_html__( 'Media Library', 'sms' ); ?></a>
 					</div>
 				</div>
 
@@ -167,37 +167,37 @@ class CMV_Admin {
 					<div class="cmv-stat-icon dashicons dashicons-category"></div>
 					<div class="cmv-stat-body">
 						<span class="cmv-stat-num"><?php echo (int) wp_count_terms( 'media_category' ); ?></span>
-						<span class="cmv-stat-label">Media Categories</span>
+						<span class="cmv-stat-label"><?php echo esc_html__( 'Media Categories', 'sms' ); ?></span>
 					</div>
 					<div class="cmv-stat-actions">
-						<a href="<?php echo esc_url( admin_url( 'edit-tags.php?taxonomy=media_category&post_type=attachment' ) ); ?>" class="button">Manage</a>
+						<a href="<?php echo esc_url( admin_url( 'edit-tags.php?taxonomy=media_category&post_type=attachment' ) ); ?>" class="button"><?php echo esc_html__( 'Manage', 'sms' ); ?></a>
 					</div>
 				</div>
 
 				<div class="cmv-stat-card">
 					<div class="cmv-stat-icon dashicons dashicons-admin-links"></div>
 					<div class="cmv-stat-body">
-						<span class="cmv-stat-label" style="margin-bottom:4px">Login URL</span>
+						<span class="cmv-stat-label" style="margin-bottom:4px"><?php echo esc_html__( 'Login URL', 'sms' ); ?></span>
 						<a href="<?php echo esc_url( $login_url ); ?>" target="_blank" style="font-size:12px;word-break:break-all"><?php echo esc_html( $login_url ); ?></a>
 						<a href="<?php echo esc_url( $portal_url ); ?>" target="_blank" style="font-size:12px;word-break:break-all;margin-top:4px;display:block"><?php echo esc_html( $portal_url ); ?></a>
 					</div>
 				</div>
 			</div>
 
-			<h2 class="cmv-section-title">Client Overview</h2>
+			<h2 class="cmv-section-title"><?php echo esc_html__( 'Client Overview', 'sms' ); ?></h2>
 			<table class="wp-list-table widefat fixed striped cmv-clients-table">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Download Permission</th>
-						<th>Files Assigned</th>
-						<th>Actions</th>
+						<th><?php echo esc_html__( 'Name', 'sms' ); ?></th>
+						<th><?php echo esc_html__( 'Email', 'sms' ); ?></th>
+						<th><?php echo esc_html__( 'Download Permission', 'sms' ); ?></th>
+						<th><?php echo esc_html__( 'Files Assigned', 'sms' ); ?></th>
+						<th><?php echo esc_html__( 'Actions', 'sms' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php if ( empty( $clients ) ) : ?>
-						<tr><td colspan="5" style="padding:20px;color:#777">No clients yet. Create a user and set their role to <strong>Client</strong>.</td></tr>
+						<tr><td colspan="5" style="padding:20px;color:#777"><?php echo wp_kses_post( sprintf( __( 'No clients yet. Create a user and set their role to <strong>%s</strong>.', 'sms' ), __( 'Client', 'sms' ) ) ); ?></td></tr>
 					<?php else : ?>
 						<?php foreach ( $clients as $c ) :
 							$can_dl = get_user_meta( $c->ID, 'cmv_can_download', true ) === '1';
@@ -208,13 +208,13 @@ class CMV_Admin {
 							<td><?php echo esc_html( $c->user_email ); ?></td>
 							<td>
 								<?php if ( $can_dl ) : ?>
-									<span class="cmv-badge-yes">&#10003; Download + View</span>
+									<span class="cmv-badge-yes">&#10003; <?php echo esc_html__( 'Download + View', 'sms' ); ?></span>
 								<?php else : ?>
-									<span class="cmv-badge-no">View Only</span>
+									<span class="cmv-badge-no"><?php echo esc_html__( 'View Only', 'sms' ); ?></span>
 								<?php endif; ?>
 							</td>
 							<td><?php echo (int) $count; ?></td>
-							<td><a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $c->ID ) ); ?>">Edit User</a></td>
+							<td><a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $c->ID ) ); ?>"><?php echo esc_html__( 'Edit User', 'sms' ); ?></a></td>
 						</tr>
 						<?php endforeach; ?>
 					<?php endif; ?>

@@ -57,8 +57,7 @@ class CMV_Shortcodes {
 
 		            <div class="client-login__field d-flex flex-column">
 		                <label class="fw-bold text-dark mb-1 small text-uppercase" for="client-login__username">
-		                    Username or Email
-		                </label>
+			                    <?php echo esc_html__( 'Username or Email', 'sms' ); ?>
 
 		                <input
 		                    type="text"
@@ -75,11 +74,8 @@ class CMV_Shortcodes {
 
 		            <div class="client-login__field d-flex flex-column">
 		                <label class="fw-bold text-dark mb-1 small text-uppercase" for="client-login__password">
-		                    Password
-		                </label>
-
-		                <div class="client-login__password position-relative">
-
+			                    <?php echo esc_html__( 'Password', 'sms' ); ?>
+			                </label>
 		                    <input
 		                        type="password"
 		                        id="password"
@@ -93,7 +89,7 @@ class CMV_Shortcodes {
 							    type="button"
 							    class="client-login__toggle bg-transparent border-0"
 							    aria-label="Show password">
-							    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/eye-off.svg' ); ?>" alt="">
+							    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/eye-off.svg' ); ?>" alt="" aria-hidden="true">
 							</button>
 
 		                </div>
@@ -118,7 +114,7 @@ class CMV_Shortcodes {
 						<div class="flex-fill text-end">
 							<a href="<?php echo esc_url( sms_cmv_page_url( 'forgot-password' ) ); ?>"
 								class="client-login__link small text-decoration-none">
-								Forgot password?
+								<?php echo esc_html__( 'Forgot password?', 'sms' ); ?>
 							</a>
 						</div>
 
@@ -128,11 +124,7 @@ class CMV_Shortcodes {
 		                type="submit"
 		                class="client-login__button client-login__button--primary btn text-white py-2 rounded-2 fw-bold w-100 mt-2"
 		            >
-		                <?php echo esc_html( 'Log In' ); ?>
-		            </button>
-
-		        </form>
-
+			                <?php echo esc_html__( 'Log In', 'sms' ); ?>
 		    </div>
 		</div>
 		<?php return ob_get_clean();
@@ -151,8 +143,8 @@ class CMV_Shortcodes {
 					<div class="client-forgot-password__logo rounded-3 mb-3 d-inline-flex align-items-center justify-content-center text-white">
 						&#128274;
 					</div>
-					<h2 class="client-forgot-password__title fw-bold text-dark mb-1">Forgot Password</h2>
-					<p class="cmv-card-subtitle text-muted fs-6">Enter your email and we'll send a reset link.</p>
+					<h2 class="client-forgot-password__title fw-bold text-dark mb-1"><?php echo esc_html__( 'Forgot Password', 'sms' ); ?></h2>
+					<p class="cmv-card-subtitle text-muted fs-6"><?php echo esc_html__( 'Enter your email and we\'ll send a reset link.', 'sms' ); ?></p>
 				</div>
 				<?php if ( $flash ) : ?>
 					<div class="client-forgot-password__alert client-forgot-password__alert--<?php echo $flash['type'] === 'error' ? 'danger' : 'success'; ?> py-2 px-3 mb-4 text-center rounded-2" role="alert">
@@ -162,15 +154,15 @@ class CMV_Shortcodes {
 				<form method="post" class="client-forgot-password__form d-flex flex-column gap-3" novalidate>
 					<?php wp_nonce_field( 'cmv_forgot', 'cmv_forgot_nonce' ); ?>
 					<div class="client-forgot-password__field d-flex flex-column gap-1">
-						<label class="fw-bold text-dark mb-1 small text-uppercase" for="cmv_email">Email Address</label>
+						<label class="fw-bold text-dark mb-1 small text-uppercase" for="cmv_email"><?php echo esc_html__( 'Email Address', 'sms' ); ?></label>
 						<input type="email" id="cmv_email" name="cmv_email"
 							   class="rounded-2 py-2 px-3"
 							   value="<?php echo esc_attr( $_POST['cmv_email'] ?? '' ); ?>"
 							   autocomplete="email" required>
 					</div>
-					<button type="submit" class="client-forgot-password__button client-forgot-password__button--primary btn text-white py-2.5 rounded-2 fw-bold w-100"><?php echo esc_html("Send Reset Link");?></button>
+					<button type="submit" class="client-forgot-password__button client-forgot-password__button--primary btn text-white py-2.5 rounded-2 fw-bold w-100"><?php echo esc_html__( 'Send Reset Link', 'sms' ); ?></button>
 					<p class="client-forgot-password__footer text-center mb-0 small">
-						<a href="<?php echo esc_url( CMV_Auth::page_url( 'client-login' ) ); ?>" class="cmv-link text-decoration-none fw-bold">&larr;<?php echo esc_html("Back to login");?></a>
+						<a href="<?php echo esc_url( CMV_Auth::page_url( 'client-login' ) ); ?>" class="cmv-link text-decoration-none fw-bold">&larr;<?php echo esc_html__( 'Back to login', 'sms' ); ?></a>
 					</p>
 				</form>
 			</div>
@@ -188,7 +180,12 @@ class CMV_Shortcodes {
 		$flash = CMV_Auth::get_flash( 'reset' );
 
 		if ( empty( $key ) || empty( $login ) ) {
-			return '<div class="cmv-wrap py-5"><div class="cmv-card shadow-lg p-4 mx-auto rounded-3 border-danger">Invalid reset link. Please <a href="' . esc_url( CMV_Auth::page_url( 'forgot-password' ) ) . '" class="cmv-link fw-bold">request a new one</a>.</div></div></div>';
+			return sprintf(
+				'<div class="cmv-wrap py-5"><div class="cmv-card shadow-lg p-4 mx-auto rounded-3 border-danger">%s <a href="%s" class="cmv-link fw-bold">%s</a>.</div></div></div>',
+				esc_html__( 'Invalid reset link. Please', 'sms' ),
+				esc_url( CMV_Auth::page_url( 'forgot-password' ) ),
+				esc_html__( 'request a new one', 'sms' )
+			);
 		}
 		ob_start(); ?>
 		<div class="client-forgot-password py-5">
@@ -197,8 +194,8 @@ class CMV_Shortcodes {
 					<div class="client-forgot-password__logo rounded-3 mb-3 d-inline-flex align-items-center justify-content-center text-white" style="width: 56px; height: 56px; background-color: var(--wp--preset--color--primary, #0b3f33); font-size: 1.5rem;">
 						&#128274;
 					</div>
-					<h2 class="client-forgot-password__title fw-bold text-dark mb-1"><?php echo esc_html("Set New Password"); ?></h2>
-					<p class="client-forgot-password__subtitle text-muted fs-6"><?php echo esc_html("Choose a strong password (min. 8 characters)."); ?></p>
+					<h2 class="client-forgot-password__title fw-bold text-dark mb-1"><?php echo esc_html__( 'Set New Password', 'sms' ); ?></h2>
+					<p class="client-forgot-password__subtitle text-muted fs-6"><?php echo esc_html__( 'Choose a strong password (min. 8 characters).', 'sms' ); ?></p>
 				</div>
 				<?php if ( $flash ) : ?>
 					<div class="client-forgot-password__alert client-forgot-password__alert--<?php echo $flash['type'] === 'error' ? 'danger' : 'success'; ?> py-2 px-3 mb-4 text-center rounded-2" role="alert">
@@ -210,12 +207,12 @@ class CMV_Shortcodes {
 					<input type="hidden" name="cmv_key"   value="<?php echo esc_attr( $key ); ?>">
 					<input type="hidden" name="cmv_login" value="<?php echo esc_attr( $login ); ?>">
 					<div class="client-forgot-password__field d-flex flex-column gap-1">
-						<label class="fw-bold text-dark mb-1 small text-uppercase" for="cmv_pass1"><?php echo esc_html("New Password"); ?></label>
+						<label class="fw-bold text-dark mb-1 small text-uppercase" for="cmv_pass1"><?php echo esc_html__( 'New Password', 'sms' ); ?></label>
 						<div class="client-forgot-password__pw-row position-relative">
 							<input type="password" id="cmv_pass1" name="cmv_pass1"
 								   class="rounded-2 py-2 px-3 pe-5"
 								   autocomplete="new-password" required minlength="8">
-							<button type="button" class="client-forgot-password__toggle bg-transparent border-0" aria-label="Show password"></button>
+							<button type="button" class="client-forgot-password__toggle bg-transparent border-0" aria-label="<?php echo esc_attr__( 'Show password', 'sms' ); ?>"></button>
 						</div>
 						<div class="client-forgot-password__strength-bar rounded-1 mt-2">
 							<div class="client-forgot-password__strength-fill h-100" id="cmv-sf"></div>
@@ -224,7 +221,7 @@ class CMV_Shortcodes {
 					</div>
 					<div class="client-forgot-password__field d-flex flex-column gap-1">
 						<label class="fw-bold text-dark mb-1 small text-uppercase" for="cmv_pass2">
-							<?php echo esc_html( 'Confirm Password' ); ?>
+							<?php echo esc_html__( 'Confirm Password', 'sms' ); ?>
 						</label>
 									
 						<div class="client-forgot-password__pw-row position-relative">
@@ -240,13 +237,13 @@ class CMV_Shortcodes {
 							<button
 								type="button"
 								class="client-forgot-password__toggle bg-transparent border-0"
-								aria-label="Show password"
+								aria-label="<?php echo esc_attr__( 'Show password', 'sms' ); ?>"
 							></button>
 						</div>
 									
 						<span class="text-danger small" id="err-p2"></span>
 					</div>
-					<button type="submit" class="client-forgot-password__button client-forgot-password__button--primary btn text-white py-2.5 rounded-2 fw-bold w-100 mt-2">Reset Password</button>
+					<button type="submit" class="client-forgot-password__button client-forgot-password__button--primary btn text-white py-2.5 rounded-2 fw-bold w-100 mt-2"><?php echo esc_html__( 'Reset Password', 'sms' ); ?></button>
 				</form>
 			</div>
 		</div>
@@ -285,19 +282,19 @@ class CMV_Shortcodes {
 					<div class="media-portal__header--brand d-flex align-items-center gap-3">
 						<div class="rounded-3 d-flex align-items-center justify-content-center text-white">&#128194</div>
 						<div>
-							<h1 class="h3 text-uppercase fw-bold mb-0"><?php echo esc_html("My Files"); ?></h1>
-							<p class="text-black-50 small mb-0"><?php echo esc_html("Welcome back, ") . esc_html( $user->display_name ); ?></p>
+							<h1 class="h3 text-uppercase fw-bold mb-0"><?php echo esc_html__( 'My Files', 'sms' ); ?></h1>
+							<p class="text-black-50 small mb-0"><?php echo esc_html( sprintf( __( 'Welcome back, %s', 'sms' ), $user->display_name ) ); ?></p>
 						</div>
 						<div>
 							<?php if ( $can_dl ) : ?>
-								<span class=" media-portal__header--badge media-portal__header--badge-download rounded-2">&#128200; <?php echo esc_html("Download Access"); ?></span>
+								<span class=" media-portal__header--badge media-portal__header--badge-download rounded-2">&#128200; <?php echo esc_html__( 'Download Access', 'sms' ); ?></span>
 							<?php else : ?>
-								<span class="media-portal__header--badge media-portal__header--badge-view rounded-2">&#128065; <?php echo esc_html("View Only"); ?></span>
+								<span class="media-portal__header--badge media-portal__header--badge-view rounded-2">&#128065; <?php echo esc_html__( 'View Only', 'sms' ); ?></span>
 							<?php endif; ?>
 						</div>
 					</div>
 					<div class="media-portal__header--right d-flex align-items-end gap-2 flex-wrap">
-						<a href="<?php echo esc_url( $logout_url ); ?>" class="media-portal__button--primary btn btn-outline-light btn-sm px-3 rounded-2">Sign Out</a>
+						<a href="<?php echo esc_url( $logout_url ); ?>" class="media-portal__button--primary btn btn-outline-light btn-sm px-3 rounded-2"><?php echo esc_html__( 'Sign Out', 'sms' ); ?></a>
 					</div>
 				</div>
 			</div>
@@ -306,7 +303,7 @@ class CMV_Shortcodes {
 				<div class="media-portal__tabs d-flex flex-wrap gap-2 mb-4 justify-content-center justify-content-md-start">
 					<a href="<?php echo esc_url( $base_url ); ?>"
 					   class="media-portal__tabs--link btn btn-sm px-3 rounded-pill <?php echo ! $cat_id ? 'btn-primary active' : 'btn-outline-secondary'; ?>">
-						<?php echo esc_html( 'All Files' ); ?>
+						<?php echo esc_html__( 'All Files', 'sms' ); ?>
 					</a>
 
 					<?php foreach ( $all_cats as $cat ) :
@@ -338,7 +335,7 @@ class CMV_Shortcodes {
 			<?php endif; ?>
 				
 			<div class="media-portal__files--count text-muted small mb-3 px-2">
-				Found <?php echo (int) $total; ?> file<?php echo $total !== 1 ? 's' : ''; ?>
+				<?php echo esc_html( sprintf( _n( 'Found %d file', 'Found %d files', $total, 'sms' ), $total ) ); ?>
 			</div>
 				
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 media-portal__files">
@@ -392,18 +389,18 @@ class CMV_Shortcodes {
 							<a href="<?php echo esc_url( $view_url ); ?>"
 							   target="_blank"
 							   class="media-portal__files--view-btn btn btn-outline-dark btn-sm flex-grow-1 py-1.5 rounded-2 d-flex align-items-center justify-content-center gap-1">
-							    &#128065; View
+							    &#128065; <?php echo esc_html__( 'View', 'sms' ); ?>
 							</a>
 							<?php endif;?>
 
 							<?php if ( $can_dl ) : ?>
 								<a href="<?php echo esc_url( $dl_url ); ?>"
 								   class="media-portal__files--download-btn btn text-white btn-sm py-1.5 rounded-2 d-flex align-items-center justify-content-center gap-1 <?php echo $is_viewable ? 'flex-grow-1' : ''; ?>">
-								   &#11015; Download
+								   &#11015; <?php echo esc_html__( 'Download', 'sms' ); ?>
 								</a>
 							<?php else : ?>
-								<span class="media-portal__files--download-btn btn btn-light btn-sm py-1.5 rounded-2 text-muted d-flex align-items-center justify-content-center gap-1 cursor-not-allowed <?php echo $is_viewable ? 'flex-grow-1' : ''; ?>" title="Download not permitted">
-									&#128274; Locked
+								<span class="media-portal__files--download-btn btn btn-light btn-sm py-1.5 rounded-2 text-muted d-flex align-items-center justify-content-center gap-1 cursor-not-allowed <?php echo $is_viewable ? 'flex-grow-1' : ''; ?>" title="<?php echo esc_attr__( 'Download not permitted', 'sms' ); ?>">
+									&#128274; <?php echo esc_html__( 'Locked', 'sms' ); ?>
 								</span>
 							<?php endif; ?>
 						</div>
@@ -413,8 +410,8 @@ class CMV_Shortcodes {
 				else : ?>
 					<div class="col-12 py-5 text-center text-muted media-portal__files--empty">
 						<div class="fs-1 opacity-50 mb-3">&#128193;</div>
-						<h4 class="text-dark"><?php echo esc_html("No files yet"); ?></h4>
-						<p class="mb-0">Files assigned to you will appear here.</p>
+						<h4 class="text-dark"><?php echo esc_html__( 'No files yet', 'sms' ); ?></h4>
+						<p class="mb-0"><?php echo esc_html__( 'Files assigned to you will appear here.', 'sms' ); ?></p>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -422,8 +419,7 @@ class CMV_Shortcodes {
 			<div class="media-portal__pagination--wrapper d-flex align-items-center justify-content-between pt-3 px-1">
 
 			    <span class="media-portal__pagination--info">
-			        Showing <?php echo (int) $showing; ?> of <?php echo (int) $total; ?> files
-			    </span>
+				        <?php echo esc_html( sprintf( _n( 'Showing %1$s of %2$s file', 'Showing %1$s of %2$s files', $total, 'sms' ), $showing, $total ) ); ?></span>
 
 			    <?php if ( $pages > 1 ) : ?>
 			        <nav aria-label="File pagination">
@@ -483,8 +479,7 @@ class CMV_Shortcodes {
     );
 
     if (!$file_url) {
-        return '<div class="alert alert-danger">File not found.</div>';
-    }
+        return '<div class="alert alert-danger">' . esc_html__( 'File not found.', 'sms' ) . '</div>';
 
     $mime = get_post_mime_type($attachment_id);
 
@@ -579,6 +574,7 @@ class CMV_Shortcodes {
 
     <?php
     return ob_get_clean();
+}
 }
 }
 function sms_cmv_get_user_categories( $user_id ) {

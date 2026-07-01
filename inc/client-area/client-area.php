@@ -46,10 +46,10 @@ function sms_cmv_init_setup() {
 // Function to create standard portal pages
 function sms_cmv_create_pages() {
 	$pages = [
-		'client-login'  => [ 'title' => 'Client Login',   'content' => '[cmv_login]' ],
-		'forgot-password' => [ 'title' => 'Forgot Password', 'content' => '[cmv_forgot_password]' ],
-		'reset-password' => [ 'title' => 'Reset Password', 'content' => '[cmv_reset_password]' ],
-		'client-media-vault' => [ 'title' => 'Client Media Vault',        'content' => '[cmv_media_portal]' ],
+		'client-login'       => [ 'title' => __( 'Client Login', 'sms' ), 'content' => '[cmv_login]' ],
+		'forgot-password'    => [ 'title' => __( 'Forgot Password', 'sms' ), 'content' => '[cmv_forgot_password]' ],
+		'reset-password'     => [ 'title' => __( 'Reset Password', 'sms' ), 'content' => '[cmv_reset_password]' ],
+		'client-media-vault' => [ 'title' => __( 'Client Media Vault', 'sms' ), 'content' => '[cmv_media_portal]' ],
 	];
 	foreach ( $pages as $slug => $data ) {
 		if ( ! get_page_by_path( $slug ) ) {
