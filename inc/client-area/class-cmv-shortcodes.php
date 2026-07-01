@@ -31,7 +31,7 @@ class CMV_Shortcodes {
 			exit;
 		}
 
-		$flash = CMV_Auth::get_flash( 'login' );
+		$flash = CMV_Auth::get_message();
 		ob_start(); ?>
 		<div class="client-login py-5">
 		    <div class="client-login__card p-4 mx-auto rounded-3 position-relative">
@@ -147,7 +147,7 @@ class CMV_Shortcodes {
 	   ════════════════════════════════════════════════════════════ */
 
 	public static function sc_forgot() {
-		$flash = CMV_Auth::get_flash( 'forgot' );
+		$flash = CMV_Auth::get_message();
 		ob_start(); ?>
 		<div class="client-forgot-password py-5">
 			<div class="client-forgot-password__card shadow-lg p-4 mx-auto rounded-3 position-relative" style="max-width: 440px;">
@@ -189,7 +189,7 @@ class CMV_Shortcodes {
 	public static function sc_reset() {
 		$key   = sanitize_text_field( $_GET['key']   ?? '' );
 		$login = sanitize_text_field( $_GET['login'] ?? $_GET['email'] ?? '' );
-		$flash = CMV_Auth::get_flash( 'reset' );
+		$flash = CMV_Auth::get_message();
 
 		if ( empty( $key ) || empty( $login ) ) {
 			return sprintf(
