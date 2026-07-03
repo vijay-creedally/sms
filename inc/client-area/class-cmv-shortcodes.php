@@ -320,28 +320,18 @@ class CMV_Shortcodes {
 							
 						<div class="media-portal__header--status">
 							<?php if ( $can_dl ) : ?>
+    
+    						    <span class="media-portal__header--badge media-portal__header--badge-download" title="<?php esc_attr_e( 'Download Access', 'sms' ); ?>">
+    						        📈 <span class="d-none d-md-inline"><?php esc_html_e( 'Download Access', 'sms' ); ?></span>
+    						    </span>
+													
+    						<?php else : ?>
 							
-								<img
-									class="d-lg-none"
-									src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/download.svg' ); ?>"
-									alt="<?php esc_attr_e( 'Download Access', 'sms' ); ?>">
+    						    <span class="media-portal__header--badge media-portal__header--badge-view" title="<?php esc_attr_e( 'View Only Access', 'sms' ); ?>">
+    						        👁 <span class="d-none d-md-inline"><?php esc_html_e( 'View Only', 'sms' ); ?></span>
+    						    </span>
 							
-								<span class="media-portal__header--badge media-portal__header--badge-download d-none d-lg-inline-flex">
-									📈 <?php esc_html_e( 'Download Access', 'sms' ); ?>
-								</span>
-							
-							<?php else : ?>
-							
-								<img
-									class="d-lg-none"
-									src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/view.svg' ); ?>"
-									alt="<?php esc_attr_e( 'View Only', 'sms' ); ?>">
-							
-								<span class="media-portal__header--badge media-portal__header--badge-view d-none d-lg-inline-flex">
-									👁 <?php esc_html_e( 'View Only', 'sms' ); ?>
-								</span>
-							
-							<?php endif; ?>
+    						<?php endif; ?>
 						</div>
 							
 						<div class="media-portal__header--user">
@@ -367,11 +357,7 @@ class CMV_Shortcodes {
 			</div>
 
 			<?php if ( ! empty( $all_cats ) ) : ?>
-				<div class="media-portal__category-filter d-lg-none mb-4">
-					<label for="media-category" class="form-label fw-semibold">
-						<?php esc_html_e( 'Category', 'sms' ); ?>
-					</label>
-						
+				<div class="media-portal__category-filter d-lg-none mb-4">	
 					<select
 						id="media-category"
 						class="form-select"
@@ -397,8 +383,6 @@ class CMV_Shortcodes {
 
 				<div class="d-none d-lg-block col-md-3">
 					<div class="media-portal__sidebar bg-white shadow-sm rounded-3 p-3 position-sticky">
-						<h6 class="text-uppercase text-muted small fw-bold mb-3 px-2"><?php echo esc_html__( 'Categories', 'sms' ); ?></h6>
-
 						<?php if ( ! empty( $all_cats ) ) : ?>
 							<div class="media-portal__tabs d-flex flex-column gap-2">
 								<a href="<?php echo esc_url( $base_url ); ?>"
@@ -429,7 +413,7 @@ class CMV_Shortcodes {
 					</div>
 				</div>
 
-				<div class="col-12 col-md-9">
+				<div class="col-12 col-lg-9">
 
 					<div class="media-portal__files--count text-muted small mb-3 px-2">
 						<?php echo esc_html( sprintf( _n( 'Found %d file', 'Found %d files', $total, 'sms' ), $total ) ); ?>
