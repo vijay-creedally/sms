@@ -417,7 +417,7 @@ class CMV_Shortcodes {
 									$file_count = (int) $file_count_query->found_posts;
 								?>
 									<a href="<?php echo esc_url( add_query_arg( 'cmv_cat', $cat->term_id, $base_url ) ); ?>"
-									   class="media-portal__tabs--link btn btn-sm text-start px-3 py-2 rounded-2 d-flex align-items-center justify-content-between <?php echo $is_active ? 'btn-primary active' : 'btn-outline-secondary'; ?>">
+									   class="media-portal__tabs--link btn btn-sm text-start px-3 py-2 rounded-2 d-flex align-items-center justify-content-between <?php echo $is_active ? 'btn-primary active' : 'btn-outline-secondary'; ?>" title="<?php echo esc_attr($cat->name); ?>">
 										<span class="text-truncate"><?php echo esc_html( $cat->name ); ?></span>
 										<span class="media-portal__tabs--count badge rounded-pill <?php echo $is_active ? 'bg-white text-dark' : ''; ?>">
 											<?php echo (int) $file_count; ?>
