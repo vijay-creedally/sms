@@ -17,6 +17,19 @@
             position: absolute;
         }
 
+        &-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &--brand,
+        &--actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
         &--badge {
             display: inline-flex;
             align-items: center;
@@ -42,6 +55,45 @@
                 border: 1px solid rgba($blue-5, .2);
             }
         }
+
+        &--right {
+            >img {
+                cursor: pointer;
+                transition: all .2s ease;
+            }
+        }
+    }
+
+    &__category {
+        &-filter {
+            & select {
+
+                &:focus,
+                &:active {
+                    outline: none;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+
+    &__sidebar {
+        position: relative;
+        color: $white;
+        border-radius: 0.25rem;
+        padding: 2rem 0;
+
+        &::before {
+            background: linear-gradient(140deg, #395aff, #395aff 50%, #ff555e 0, #ff555e);
+            border-radius: 8px 8px 0 0;
+            border-left: 0.5px solid rgba(0, 0, 0, 0.07);
+            border-right: 0.5px solid rgba(0, 0, 0, 0.07);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+            content: "";
+            height: 0.25rem;
+            inset: 0 0 auto;
+            position: absolute;
+        }
     }
 
 
@@ -56,7 +108,7 @@
             font-size: $p-font-size;
             text-transform: uppercase;
             line-height: 1.5rem;
-            padding: 0.75rem 2.5rem;
+            padding: 0.625rem 2.5rem;
             border-radius: 0.3125rem;
             background: $red-6;
             font-weight: 800;
@@ -87,6 +139,15 @@
                 &::after {
                     width: 200%;
                 }
+            }
+        }
+
+        &--icon {
+            transition: transform .25s ease, opacity .25s ease;
+
+            &:hover {
+                transform: translateX(.3rem);
+                opacity: .85;
             }
         }
     }
@@ -225,6 +286,7 @@
         font-weight: 600;
     }
 }
+
 
 .pagination {
     .page-item {

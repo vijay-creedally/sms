@@ -273,7 +273,7 @@ class CMV_Shortcodes {
 		$can_dl   = CMV_Roles::user_can_download( $uid );
 		$cat_id   = isset( $_GET['cmv_cat'] )  ? absint( $_GET['cmv_cat'] )            : 0;
 		$paged    = isset( $_GET['cmv_page'] ) ? max( 1, absint( $_GET['cmv_page'] ) ) : 1;
-		$per_page = 8;
+		$per_page = 9;
 
 		$query    = CMV_Meta_Fields::get_user_attachments( $uid, $cat_id ?: null, $per_page, $paged );
 		$total    = $query->found_posts;
@@ -289,169 +289,257 @@ class CMV_Shortcodes {
 		ob_start(); ?>
 		<div class="media-portal py-4">
 
-			<div class="media-portal__header p-4 mb-4 shadow">
-				<div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-					<div class="media-portal__header--brand d-flex align-items-center gap-3">
-						<div class="rounded-3 d-flex align-items-center justify-content-center text-white">&#128194</div>
-						<div>
-							<h1 class="h3 text-uppercase fw-bold mb-0"><?php echo esc_html__( 'My Files', 'sms' ); ?></h1>
-							<p class="text-black-50 small mb-0"><?php echo esc_html( sprintf( __( 'Welcome back, %s', 'sms' ), $user->display_name ) ); ?></p>
+			<div class="media-portal__header p-4 mb-5 shadow-sm">
+				<div class="media-portal__header-inner">
+							
+					<div class="media-portal__header--brand">
+						<div class="media-portal__header--icon">
+							<img
+								src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/folder.svg' ); ?>"
+								alt=""
+								aria-hidden="true">
 						</div>
-						<div>
+							
+						<div class="media-portal__header--content d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-1 gap-lg-3">
+							<h1 class="h3 text-uppercase fw-bold mb-0">
+								<?php esc_html_e( 'My Files', 'sms' ); ?>
+							</h1>
+							
+							<p class="text-black-50 small mb-0">
+								<?php
+								printf(
+									esc_html__( 'Welcome back, %s', 'sms' ),
+									esc_html( $user->display_name )
+								);
+								?>
+							</p>
+						</div>
+					</div>
+							
+					<div class="media-portal__header--actions">
+							
+						<div class="media-portal__header--status">
 							<?php if ( $can_dl ) : ?>
-								<span class=" media-portal__header--badge media-portal__header--badge-download rounded-2">&#128200; <?php echo esc_html__( 'Download Access', 'sms' ); ?></span>
+							
+								<img
+									class="d-lg-none"
+									src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/download.svg' ); ?>"
+									alt="<?php esc_attr_e( 'Download Access', 'sms' ); ?>">
+							
+								<span class="media-portal__header--badge media-portal__header--badge-download d-none d-lg-inline-flex">
+									📈 <?php esc_html_e( 'Download Access', 'sms' ); ?>
+								</span>
+							
 							<?php else : ?>
-								<span class="media-portal__header--badge media-portal__header--badge-view rounded-2">&#128065; <?php echo esc_html__( 'View Only', 'sms' ); ?></span>
+							
+								<img
+									class="d-lg-none"
+									src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/view.svg' ); ?>"
+									alt="<?php esc_attr_e( 'View Only', 'sms' ); ?>">
+							
+								<span class="media-portal__header--badge media-portal__header--badge-view d-none d-lg-inline-flex">
+									👁 <?php esc_html_e( 'View Only', 'sms' ); ?>
+								</span>
+							
 							<?php endif; ?>
 						</div>
+							
+						<div class="media-portal__header--user">
+							<a href="<?php echo esc_url( $logout_url ); ?>"
+								class="media-portal__button media-portal__button--primary d-none d-lg-inline-flex rounded">
+								<?php esc_html_e( 'Sign Out', 'sms' ); ?>
+							</a>
+							
+							<a href="<?php echo esc_url( $logout_url ); ?>"
+								class="media-portal__button--icon d-lg-none d-flex"
+								aria-label="<?php esc_attr_e( 'Sign Out', 'sms' ); ?>">
+								<img
+									src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/sign-out.svg' ); ?>"
+									alt=""
+									aria-hidden="true">
+							</a>
+							
+						</div>
+							
 					</div>
-					<div class="media-portal__header--right d-flex align-items-end gap-2 flex-wrap">
-						<a href="<?php echo esc_url( $logout_url ); ?>" class="media-portal__button--primary btn btn-outline-light btn-sm px-3 rounded-2"><?php echo esc_html__( 'Sign Out', 'sms' ); ?></a>
-					</div>
+							
 				</div>
 			</div>
-						
+
 			<?php if ( ! empty( $all_cats ) ) : ?>
-				<div class="media-portal__tabs d-flex flex-wrap gap-2 mb-4 justify-content-center justify-content-md-start">
-					<a href="<?php echo esc_url( $base_url ); ?>"
-					   class="media-portal__tabs--link btn btn-sm px-3 rounded-pill <?php echo ! $cat_id ? 'btn-primary active' : 'btn-outline-secondary'; ?>">
-						<?php echo esc_html__( 'All Files', 'sms' ); ?>
-					</a>
-
-					<?php foreach ( $all_cats as $cat ) :
-						$is_active = ( $cat_id === (int) $cat->term_id );
-						$file_count_query = CMV_Meta_Fields::get_user_attachments(
-						$uid,
-						$cat->term_id,
-							-1,
-							1
-						);
-
-						$file_count = (int) $file_count_query->found_posts;
-
-					?>
-
-						<a href="<?php echo esc_url( add_query_arg( 'cmv_cat', $cat->term_id, $base_url ) ); ?>"
-						   class="media-portal__tabs--link btn btn-sm px-3 rounded-pill <?php echo $is_active ? 'btn-primary active' : 'btn-outline-secondary'; ?>">
-					
-							<?php echo esc_html( $cat->name ); ?>
-					
-							<span class="media-portal__tabs--count badge ms-1 <?php echo $is_active ? 'bg-white text-dark' : ''; ?>">
-								<?php echo (int) $file_count; ?>
-							</span>
-					
-						</a>
-					
-					<?php endforeach; ?>
+				<div class="media-portal__category-filter d-lg-none mb-4">
+					<label for="media-category" class="form-label fw-semibold">
+						<?php esc_html_e( 'Category', 'sms' ); ?>
+					</label>
+						
+					<select
+						id="media-category"
+						class="form-select"
+						onchange="if(this.value){window.location.href=this.value;}">
+						
+						<option value="<?php echo esc_url( $base_url ); ?>" <?php selected( $cat_id, 0 ); ?>>
+							<?php esc_html_e( 'All Files', 'sms' ); ?>
+						</option>
+						
+						<?php foreach ( $all_cats as $cat ) : ?>
+							<option
+								value="<?php echo esc_url( add_query_arg( 'cmv_cat', $cat->term_id, $base_url ) ); ?>"
+								<?php selected( $cat_id, $cat->term_id ); ?>>
+								<?php echo esc_html( $cat->name ); ?>
+							</option>
+						<?php endforeach; ?>
+						
+					</select>
 				</div>
 			<?php endif; ?>
-				
-			<div class="media-portal__files--count text-muted small mb-3 px-2">
-				<?php echo esc_html( sprintf( _n( 'Found %d file', 'Found %d files', $total, 'sms' ), $total ) ); ?>
-			</div>
-				
-			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 media-portal__files">
-				<?php if ( $query->have_posts() ) :
-					while ( $query->have_posts() ) : $query->the_post();
-						$att_id   = get_the_ID();
-						$mime     = get_post_mime_type( $att_id );
-						$is_img   = strpos( $mime, 'image/' ) === 0;
-						$is_video = strpos( $mime, 'video/' ) === 0;
-						$is_pdf   = ( 'application/pdf' === $mime );
 
-						$is_viewable = $is_img || $is_video || $is_pdf;
+			<div class="row g-4">
 
-						$cats_lst = wp_get_object_terms( $att_id, 'media_category', [ 'fields' => 'names' ] );
-						$view_url = CMV_Secure_Download::get_view_url( $att_id, $uid );
-						$dl_url   = CMV_Secure_Download::get_download_url( $att_id, $uid );
+				<div class="d-none d-lg-block col-md-3">
+					<div class="media-portal__sidebar bg-white shadow-sm rounded-3 p-3 position-sticky">
+						<h6 class="text-uppercase text-muted small fw-bold mb-3 px-2"><?php echo esc_html__( 'Categories', 'sms' ); ?></h6>
 
-						$thumb_url = wp_get_attachment_image_url( $att_id, 'medium' );
-
-						if ( ! $thumb_url ) {
-							$thumb_url = wp_mime_type_icon( $att_id );
-						}
-
-						if ( $is_pdf ) {
-							$badge = '<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 rounded">PDF</span>';
-						} elseif ( $is_video ) {
-							$badge = '<span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded">VIDEO</span>';
-						} elseif ( in_array( $mime, [ 'application/zip', 'application/x-zip-compressed' ], true ) ) {
-							$badge = '<span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-3 py-2 rounded text-dark">ZIP</span>';
-						} elseif ( strpos( $mime, 'application/vnd' ) === 0 || strpos( $mime, 'text/' ) === 0 ) {
-							$badge = '<span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-3 py-2 rounded">DOC</span>';
-						} else {
-							$badge = '<span class="fs-1 text-muted">&#128196;</span>';
-						}
-				?>
-				<div class="media-portal__files--item col">
-					<div class="media-portal__files--card h-100 shadow-sm border border-light rounded-3 overflow-hidden position-relative">
-						<div class="media-portal__files--thumb bg-light d-flex align-items-center justify-content-center overflow-hidden position-relative">
-							<?php if ( $is_img ) : ?>
-								<img src="<?php echo esc_url( $thumb_url ); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy">
-							<?php else : ?>
-								<?php echo $badge; ?>
-							<?php endif; ?>
-						</div>
-						<div class="media-portal__files--body p-3 d-flex flex-column">
-							<h6 class="media-portal__files--title text-dark fw-bold mb-1 text-truncate" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></h6>
-							<p class="media-portal__files--date text-muted small mb-0 mt-auto"><?php echo esc_html( get_the_date() ); ?></p>
-						</div>
-						<div class="media-portal__files--footer">
-							<?php if( $is_viewable ) : ?>	
-							<a href="<?php echo esc_url( $view_url ); ?>"
-							   target="_blank"
-							   class="media-portal__files--view-btn btn btn-outline-dark btn-sm flex-grow-1 py-1.5 rounded-2 d-flex align-items-center justify-content-center gap-1">
-							    &#128065; <?php echo esc_html__( 'View', 'sms' ); ?>
-							</a>
-							<?php endif;?>
-
-							<?php if ( $can_dl ) : ?>
-								<a href="<?php echo esc_url( $dl_url ); ?>"
-								   class="media-portal__files--download-btn btn text-white btn-sm py-1.5 rounded-2 d-flex align-items-center justify-content-center gap-1 <?php echo $is_viewable ? 'flex-grow-1' : ''; ?>">
-								   &#11015; <?php echo esc_html__( 'Download', 'sms' ); ?>
+						<?php if ( ! empty( $all_cats ) ) : ?>
+							<div class="media-portal__tabs d-flex flex-column gap-2">
+								<a href="<?php echo esc_url( $base_url ); ?>"
+								   class="media-portal__tabs--link btn btn-sm text-start px-3 py-2 rounded-2 d-flex align-items-center justify-content-between <?php echo ! $cat_id ? 'btn-primary active' : 'btn-outline-secondary'; ?>">
+									<span><?php echo esc_html__( 'All Files', 'sms' ); ?></span>
 								</a>
-							<?php else : ?>
-								<span class="media-portal__files--download-btn btn btn-light btn-sm py-1.5 rounded-2 text-muted d-flex align-items-center justify-content-center gap-1 cursor-not-allowed <?php echo $is_viewable ? 'flex-grow-1' : ''; ?>" title="<?php echo esc_attr__( 'Download not permitted', 'sms' ); ?>">
-									&#128274; <?php echo esc_html__( 'Locked', 'sms' ); ?>
-								</span>
-							<?php endif; ?>
-						</div>
+
+								<?php foreach ( $all_cats as $cat ) :
+									$is_active = ( $cat_id === (int) $cat->term_id );
+									$file_count_query = CMV_Meta_Fields::get_user_attachments(
+										$uid,
+										$cat->term_id,
+										-1,
+										1
+									);
+									$file_count = (int) $file_count_query->found_posts;
+								?>
+									<a href="<?php echo esc_url( add_query_arg( 'cmv_cat', $cat->term_id, $base_url ) ); ?>"
+									   class="media-portal__tabs--link btn btn-sm text-start px-3 py-2 rounded-2 d-flex align-items-center justify-content-between <?php echo $is_active ? 'btn-primary active' : 'btn-outline-secondary'; ?>">
+										<span class="text-truncate"><?php echo esc_html( $cat->name ); ?></span>
+										<span class="media-portal__tabs--count badge rounded-pill <?php echo $is_active ? 'bg-white text-dark' : ''; ?>">
+											<?php echo (int) $file_count; ?>
+										</span>
+									</a>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
-				<?php endwhile; wp_reset_postdata();
-				else : ?>
-					<div class="col-12 py-5 text-center text-muted media-portal__files--empty">
-						<div class="fs-1 opacity-50 mb-3">&#128193;</div>
-						<h4 class="text-dark"><?php echo esc_html__( 'No files yet', 'sms' ); ?></h4>
-						<p class="mb-0"><?php echo esc_html__( 'Files assigned to you will appear here.', 'sms' ); ?></p>
+
+				<div class="col-12 col-md-9">
+
+					<div class="media-portal__files--count text-muted small mb-3 px-2">
+						<?php echo esc_html( sprintf( _n( 'Found %d file', 'Found %d files', $total, 'sms' ), $total ) ); ?>
 					</div>
-				<?php endif; ?>
-			</div>
-				
-			<div class="media-portal__pagination--wrapper d-flex align-items-center justify-content-between pt-3 px-1">
 
-			    <span class="media-portal__pagination--info">
-				        <?php echo esc_html( sprintf( _n( 'Showing %1$s of %2$s file', 'Showing %1$s of %2$s files', $total, 'sms' ), $showing, $total ) ); ?></span>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 media-portal__files">
+						<?php if ( $query->have_posts() ) :
+							while ( $query->have_posts() ) : $query->the_post();
+								$att_id   = get_the_ID();
+								$mime     = get_post_mime_type( $att_id );
+								$is_img   = strpos( $mime, 'image/' ) === 0;
+								$is_video = strpos( $mime, 'video/' ) === 0;
+								$is_pdf   = ( 'application/pdf' === $mime );
 
-			    <?php if ( $pages > 1 ) : ?>
-			        <nav aria-label="File pagination">
-			            <ul class="pagination pagination-sm gap-2 mb-0 d-flex">
-			                <?php for ( $i = 1; $i <= $pages; $i++ ) :
-			                    $isActive = $i === $paged;
-			                ?>
-			                    <li class="page-item <?php echo $isActive ? 'active' : ''; ?>">
-			                        <a href="<?php echo esc_url( add_query_arg( [ 'cmv_cat' => $cat_id, 'cmv_page' => $i ], $base_url ) ); ?>"
-			                           class="page-link">
-			                            <?php echo (int) $i; ?>
-			                        </a>
-			                    </li>
-			                <?php endfor; ?>
-			            </ul>
-			        </nav>
-			    <?php endif; ?>
-							
+								$is_viewable = $is_img || $is_video || $is_pdf;
+
+								$view_url = CMV_Secure_Download::get_view_url( $att_id, $uid );
+								$dl_url   = CMV_Secure_Download::get_download_url( $att_id, $uid );
+
+								$thumb_url = wp_get_attachment_image_url( $att_id, 'medium' );
+
+								if ( ! $thumb_url ) {
+									$thumb_url = wp_mime_type_icon( $att_id );
+								}
+
+								if ( $is_pdf ) {
+									$badge = '<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 rounded">PDF</span>';
+								} elseif ( $is_video ) {
+									$badge = '<span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded">VIDEO</span>';
+								} elseif ( in_array( $mime, [ 'application/zip', 'application/x-zip-compressed' ], true ) ) {
+									$badge = '<span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-3 py-2 rounded text-dark">ZIP</span>';
+								} elseif ( strpos( $mime, 'application/vnd' ) === 0 || strpos( $mime, 'text/' ) === 0 ) {
+									$badge = '<span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-3 py-2 rounded">DOC</span>';
+								} else {
+									$badge = '<span class="fs-1 text-muted">&#128196;</span>';
+								}
+						?>
+						<div class="media-portal__files--item col">
+							<div class="media-portal__files--card h-100 shadow-sm border border-light rounded-3 overflow-hidden position-relative">
+								<div class="media-portal__files--thumb bg-light d-flex align-items-center justify-content-center overflow-hidden position-relative">
+									<?php if ( $is_img ) : ?>
+										<img src="<?php echo esc_url( $thumb_url ); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy">
+									<?php else : ?>
+										<?php echo $badge; ?>
+									<?php endif; ?>
+								</div>
+								<div class="media-portal__files--body p-3 d-flex flex-column">
+									<h6 class="media-portal__files--title text-dark fw-bold mb-1 text-truncate" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></h6>
+									<p class="media-portal__files--date text-muted small mb-0 mt-auto"><?php echo esc_html( get_the_date() ); ?></p>
+								</div>
+								<div class="media-portal__files--footer">
+									<?php if( $is_viewable ) : ?>
+									<a href="<?php echo esc_url( $view_url ); ?>"
+									   target="_blank"
+									   class="media-portal__files--view-btn btn btn-outline-dark btn-sm flex-grow-1 py-1.5 rounded-2 d-flex align-items-center justify-content-center gap-1">
+									    &#128065; <?php echo esc_html__( 'View', 'sms' ); ?>
+									</a>
+									<?php endif;?>
+
+									<?php if ( $can_dl ) : ?>
+										<a href="<?php echo esc_url( $dl_url ); ?>"
+										   class="media-portal__files--download-btn btn text-white btn-sm py-1.5 rounded-2 d-flex align-items-center justify-content-center gap-1 <?php echo $is_viewable ? 'flex-grow-1' : ''; ?>">
+										   &#11015; <?php echo esc_html__( 'Download', 'sms' ); ?>
+										</a>
+									<?php else : ?>
+										<span class="media-portal__files--download-btn btn btn-light btn-sm py-1.5 rounded-2 text-muted d-flex align-items-center justify-content-center gap-1 cursor-not-allowed <?php echo $is_viewable ? 'flex-grow-1' : ''; ?>" title="<?php echo esc_attr__( 'Download not permitted', 'sms' ); ?>">
+											&#128274; <?php echo esc_html__( 'Locked', 'sms' ); ?>
+										</span>
+									<?php endif; ?>
+								</div>
+							</div>
+						</div>
+						<?php endwhile; wp_reset_postdata();
+						else : ?>
+							<div class="col-12 py-5 text-center text-muted media-portal__files--empty">
+								<div class="fs-1 opacity-50 mb-3">&#128193;</div>
+								<h4 class="text-dark"><?php echo esc_html__( 'No files yet', 'sms' ); ?></h4>
+								<p class="mb-0"><?php echo esc_html__( 'Files assigned to you will appear here.', 'sms' ); ?></p>
+							</div>
+						<?php endif; ?>
+					</div>
+
+					<div class="media-portal__pagination--wrapper d-flex align-items-center justify-content-between pt-3 px-1">
+
+					    <span class="media-portal__pagination--info">
+						        <?php echo esc_html( sprintf( _n( 'Showing %1$s of %2$s file', 'Showing %1$s of %2$s files', $total, 'sms' ), $showing, $total ) ); ?></span>
+
+					    <?php if ( $pages > 1 ) : ?>
+					        <nav aria-label="File pagination">
+					            <ul class="pagination pagination-sm gap-2 mb-0 d-flex">
+					                <?php for ( $i = 1; $i <= $pages; $i++ ) :
+					                    $isActive = $i === $paged;
+					                ?>
+					                    <li class="page-item <?php echo $isActive ? 'active' : ''; ?>">
+					                        <a href="<?php echo esc_url( add_query_arg( [ 'cmv_cat' => $cat_id, 'cmv_page' => $i ], $base_url ) ); ?>"
+					                           class="page-link">
+					                            <?php echo (int) $i; ?>
+					                        </a>
+					                    </li>
+					                <?php endfor; ?>
+					            </ul>
+					        </nav>
+					    <?php endif; ?>
+
+					</div>
+
+				</div>
+
 			</div>
-					
+
 		</div>
 		<?php return ob_get_clean();
 	}
