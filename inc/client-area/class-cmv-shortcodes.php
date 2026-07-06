@@ -380,16 +380,15 @@ class CMV_Shortcodes {
 			<?php endif; ?>
 
 			<div class="row g-4">
-
+				
 				<div class="d-none d-lg-block col-md-3">
-					<div class="media-portal__sidebar bg-white shadow-sm rounded-3 p-3 position-sticky">
-						<?php if ( ! empty( $all_cats ) ) : ?>
+					<?php if ( ! empty( $all_cats ) ) : ?>
+						<div class="media-portal__sidebar bg-white shadow-sm rounded-3 p-3 position-sticky">
 							<div class="media-portal__tabs d-flex flex-column gap-2">
 								<a href="<?php echo esc_url( $base_url ); ?>"
 								   class="media-portal__tabs--link btn btn-sm text-start px-3 py-2 rounded-2 d-flex align-items-center justify-content-between <?php echo ! $cat_id ? 'btn-primary active' : 'btn-outline-secondary'; ?>">
 									<span><?php echo esc_html__( 'All Files', 'sms' ); ?></span>
 								</a>
-
 								<?php foreach ( $all_cats as $cat ) :
 									$is_active = ( $cat_id === (int) $cat->term_id );
 									$file_count_query = CMV_Meta_Fields::get_user_attachments(
@@ -409,11 +408,11 @@ class CMV_Shortcodes {
 									</a>
 								<?php endforeach; ?>
 							</div>
-						<?php endif; ?>
-					</div>
+						</div>
+					<?php endif; ?>
 				</div>
 
-				<div class="col-12 col-lg-9">
+				<div class="col-12 col-lg-<?php echo ! empty( $all_cats ) ? '9' : '12'; ?>">
 
 					<div class="media-portal__files--count text-muted small mb-3 px-2">
 						<?php echo esc_html( sprintf( _n( 'Found %d file', 'Found %d files', $total, 'sms' ), $total ) ); ?>
