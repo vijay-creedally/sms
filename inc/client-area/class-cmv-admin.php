@@ -133,7 +133,7 @@ class CMV_Admin {
 		$portal_url  = CMV_Auth::page_url( 'client-media-vault' );
 		$login_url   = CMV_Auth::page_url( 'client-login' );
 		$clients     = get_users( [ 'role' => 'client', 'number' => 999 ] );
-		$total_media = (int) wp_count_posts( 'attachment' )->inherit;
+		$total_media = self::count_total_assigned_media();
 		?>
 		<div class="wrap cmv-admin-wrap">
 			<h1 class="cmv-admin-title"><span class="dashicons dashicons-lock"></span> <?php echo esc_html__( 'Client Media Vault', 'sms' ); ?></h1>
@@ -227,18 +227,43 @@ class CMV_Admin {
 	/* ── Count attachments assigned to a user ────────────────── */
 
 	public static function count_assigned( $user_id ) {
-		global $wpdb;
-		$uid = (int) $user_id;
-		return (int) $wpdb->get_var( $wpdb->prepare(
-			"SELECT COUNT(*) FROM {$wpdb->postmeta}
-			 WHERE meta_key = '_cmv_assigned_users'
-			 AND (
-				meta_value LIKE %s
-				OR meta_value LIKE %s
-			 )",
-			'%' . $wpdb->esc_like( ';i:' . $uid . ';' ) . '%',
-			'%' . $wpdb->esc_like( '"' . $uid . '"' ) . '%'
-		) );
+		$query = CMV_Meta_Fields::get_user_attachments( $user_id, null, 1, 1 );
+		return (int) $query->found_posts;
+	}
+
+	/* ── Count total attachments assigned to ANY user ────────────── */
+
+	public static function count_total_assigned_media() {
+		$args = [
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_query'     => [
+				'relation' => 'AND',
+				[
+					'key'     => '_cmv_assigned_users',
+					'compare' => 'EXISTS',
+				],
+				[
+					'key'     => '_cmv_assigned_users',
+					'value'   => '',
+					'compare' => '!=',
+				],
+				[
+					'key'     => '_cmv_assigned_users',
+					'value'   => 'a:0:{}',
+					'compare' => '!=',
+				],
+				[
+					'key'     => '_cmv_assigned_users',
+					'value'   => '[]',
+					'compare' => '!=',
+				],
+			],
+		];
+		$query = new WP_Query( $args );
+		return (int) $query->found_posts;
 	}
 
 	/* ════════════════════════════════════════════════════════════
