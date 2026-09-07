@@ -234,33 +234,32 @@ class CMV_Admin {
 	/* ── Count total attachments assigned to ANY user ────────────── */
 
 	public static function count_total_assigned_media() {
+		$client_ids = get_users( [ 'role' => 'client', 'number' => 999, 'fields' => 'ID' ] );
+		
+		if ( empty( $client_ids ) ) {
+			return 0;
+		}
+
+		$meta_queries = [ 'relation' => 'OR' ];
+		foreach ( $client_ids as $uid ) {
+			$meta_queries[] = [
+				'key'     => '_cmv_assigned_users',
+				'value'   => ';i:' . $uid . ';',
+				'compare' => 'LIKE',
+			];
+			$meta_queries[] = [
+				'key'     => '_cmv_assigned_users',
+				'value'   => '"' . $uid . '"',
+				'compare' => 'LIKE',
+			];
+		}
+
 		$args = [
 			'post_type'      => 'attachment',
 			'post_status'    => 'inherit',
 			'posts_per_page' => 1,
 			'fields'         => 'ids',
-			'meta_query'     => [
-				'relation' => 'AND',
-				[
-					'key'     => '_cmv_assigned_users',
-					'compare' => 'EXISTS',
-				],
-				[
-					'key'     => '_cmv_assigned_users',
-					'value'   => '',
-					'compare' => '!=',
-				],
-				[
-					'key'     => '_cmv_assigned_users',
-					'value'   => 'a:0:{}',
-					'compare' => '!=',
-				],
-				[
-					'key'     => '_cmv_assigned_users',
-					'value'   => '[]',
-					'compare' => '!=',
-				],
-			],
+			'meta_query'     => $meta_queries,
 		];
 		$query = new WP_Query( $args );
 		return (int) $query->found_posts;
