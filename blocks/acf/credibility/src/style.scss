@@ -6,7 +6,7 @@
   background-color: $surface-secondary;
   font-family: $font-raleway;
 
-  &::before{
+  &::before {
     content: "";
     position: absolute;
     width: 5rem;
@@ -19,14 +19,14 @@
     background-repeat: no-repeat;
     background-size: cover;
 
-    @include media-up(xl){
-        width: 9.75rem;
-        height: 10.4375rem;
-        bottom: 0;
-        left: auto;
-        right: 0;
-        top: -10.4375rem; 
-        background-size: auto;
+    @include media-up(xl) {
+      width: 9.75rem;
+      height: 10.4375rem;
+      bottom: 0;
+      left: auto;
+      right: 0;
+      top: -10.4375rem;
+      background-size: auto;
     }
   }
 
@@ -37,7 +37,7 @@
     }
   }
 
-  &__wrapper{
+  &__wrapper {
     max-width: 70rem;
     margin: 0 auto;
 
@@ -54,7 +54,7 @@
         letter-spacing: 0.0625rem;
         margin-bottom: 1rem;
 
-         @include media-up(xl) {
+        @include media-up(xl) {
           letter-spacing: 0.125rem;
         }
 
@@ -70,8 +70,9 @@
     text-align: left;
     font-family: $font-raleway;
     padding-bottom: 2.5rem;
+
     @include media-up(xl) {
-        padding-bottom: 5rem;
+      padding-bottom: 5rem;
     }
   }
 
@@ -80,7 +81,7 @@
     letter-spacing: 0.0625rem;
 
     @include media-up(lgx) {
-        letter-spacing: 0.125rem;
+      letter-spacing: 0.125rem;
     }
   }
 
@@ -106,6 +107,19 @@
 
   &__stat {
     text-align: center;
+
+    &:nth-child(3n + 1):nth-last-child(2),
+    &:nth-child(3n + 2):nth-last-child(1) {
+      @include media-up(lgx) {
+        transform: translateX(calc(50% + 3.125rem)) !important;
+      }
+    }
+
+    &:nth-child(3n + 1):nth-last-child(1) {
+      @include media-up(lgx) {
+        transform: translateX(calc(100% + 6.25rem)) !important;
+      }
+    }
   }
 
   &__number {
@@ -118,7 +132,7 @@
     font-variant-numeric: lining-nums proportional-nums;
   }
 
-  &__prefix{
+  &__prefix {
     font-size: 5rem;
     font-weight: 800;
     color: $blue-3;
@@ -135,8 +149,8 @@
     line-height: 7rem;
     vertical-align: sub;
 
-     &-middle{
-       font-size: 5rem;
+    &-middle {
+      font-size: 5rem;
       font-weight: 800;
       color: $red-5;
       line-height: 7rem;
@@ -155,6 +169,7 @@
     line-height: 1.5625rem;
     text-align: center;
   }
+
   &__logos {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -165,17 +180,18 @@
     padding-top: 5rem;
 
     @include media-up(md) {
-       grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
 
     @include media-up(lgx) {
-        grid-template-columns: repeat(4, 1fr);
-        padding-top: 7.5rem;
-        row-gap: 3.75rem;
-        column-gap: 3.75rem;
+      grid-template-columns: repeat(4, 1fr);
+      padding-top: 7.5rem;
+      row-gap: 3.75rem;
+      column-gap: 3.75rem;
     }
   }
-   &__logo {
+
+  &__logo {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -185,6 +201,6 @@
       width: 100%;
       height: auto;
     }
-   }
+  }
 
 }

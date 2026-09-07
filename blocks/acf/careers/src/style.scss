@@ -44,7 +44,7 @@
     }
 
     &__icon {
-        margin-bottom: 2.5rem!important;
+        margin-bottom: 2.5rem !important;
 
         img {
             width: 8.75rem;
@@ -78,6 +78,7 @@
         line-height: 1.75;
         color: $white;
         margin: 0;
+
         @include media-down(md) {
             line-height: 1.5;
         }
@@ -156,7 +157,7 @@
             display: block;
             width: 100%;
             height: 0.0625rem;
-            background: linear-gradient( 90deg, rgba(204, 204, 204, 0) 10%, rgba($grey-5, 0.30) 49.52%, rgba(204, 204, 204, 0) 90%);
+            background: linear-gradient(90deg, rgba(204, 204, 204, 0) 10%, rgba($grey-5, 0.30) 49.52%, rgba(204, 204, 204, 0) 90%);
             position: absolute;
             bottom: 0;
             left: 0;
@@ -171,8 +172,17 @@
         letter-spacing: 0.125rem;
         padding-top: 1.25rem;
         margin: 0;
+
         &:last-of-type {
             padding-bottom: 1.25rem;
+        }
+
+        a {
+            text-decoration: none;
+
+            &:hover {
+                border-bottom: 0.0625rem solid;
+            }
         }
     }
 
@@ -193,6 +203,7 @@
             width: 2.25rem;
             height: 2.25rem;
         }
+
         &-label {
             color: $grey-6;
             font-family: $font-raleway;
@@ -216,7 +227,7 @@
         }
 
         &-link,
-        &-link > a {
+        &-link>a {
             color: $white;
             font-family: $font-roboto;
             text-decoration: none;
@@ -230,6 +241,7 @@
             width: 100%;
             font-weight: 300;
             line-height: 1.75;
+
             &:hover {
                 border-color: $white;
             }
