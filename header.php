@@ -11,7 +11,9 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
-	<link rel="shortcut icon" type="image/png" href="/wp-content/themes/sms/assets/images/favicon.png">
+	<?php if ( ! has_site_icon() ) : ?>
+		<link rel="shortcut icon" type="image/png" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.png' ); ?>">
+	<?php endif; ?>
 	<script type="text/javascript" src="https://www.bugherd.com/sidebarv2.js?apikey=ysigc9drkvalix6agwzrna" async="true"></script>
 	<!-- Google Tag Manager here-->
 	<?php wp_head(); ?>
