@@ -13,15 +13,11 @@
     }
 
     &__content {
-        padding: 9.4375rem 1.25rem 2.5rem 1.25rem;
+        padding: 9.4375rem 2.5rem 2.5rem 2.5rem;
         background: $white;
         height: auto;
         box-shadow: 0 2.5rem 7.5rem 0 rgba(0, 0, 0, 0.07);
         width: 100%;
-
-        @include media-up(sm) {
-            padding: 9.4375rem 2.5rem 2.5rem 2.5rem;
-        }
 
         @include media-down(lgxx) {
             margin-top: 11.250rem;
@@ -358,22 +354,14 @@
 
     &__title,
     & .wp-block-heading {
-        letter-spacing: 0.125rem;
+        letter-spacing: 0.3125rem;
         text-transform: uppercase;
         font-weight: 600;
-        font-size: clamp(20px, calc(1.2rem + 0.8vw), 36px);
+        font-size: $h2-font-size;
         color: $grey-1;
-        line-height: 1.35;
+        line-height: 1.4;
         margin: 0;
         padding-bottom: 2.5rem;
-        overflow-wrap: break-word;
-        word-break: normal;
-
-        @include media-up(md) {
-            font-size: $h2-font-size;
-            letter-spacing: 0.3125rem;
-            line-height: 1.4;
-        }
 
         @include media-up(lgx) {
             padding-bottom: 5rem;
