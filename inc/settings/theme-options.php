@@ -162,7 +162,17 @@ if( ! function_exists('gform_input_button_cb') ) {
 	 * @return void
 	 */
 	function gform_input_button_cb( $button, $form ) {
+		if ( ! class_exists( 'WP_HTML_Processor' ) ) {
+			return $button;
+		}
+		
 		$fragment = WP_HTML_Processor::create_fragment( $button );
+		
+		if ( ! $fragment->next_tag( 'input' ) ) {
+			// return original markup if we can't find the input
+			return $button;
+		}
+		
 		$fragment->next_token();
 	
 		$attributes      = array( 'id', 'type', 'class', 'onclick' );
