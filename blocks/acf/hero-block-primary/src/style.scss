@@ -81,21 +81,15 @@
     &__title,
     & .wp-block-post-title {
         font-family: $font-raleway;
-        font-size: clamp(1.75rem, 5vw, 3rem);
+        font-size: clamp(2rem, 5vw, 3rem);
         font-weight: 600;
-        letter-spacing: clamp(0.3125rem, 2vw, 0.625rem);
+        letter-spacing: 1.25rem;
         margin: 0;
         color: $white;
         line-height: 1.4;
         padding-bottom: 2.5rem;
         text-transform: uppercase;
         position: relative;
-        max-width: 100%;
-        overflow-wrap: break-word;
-
-        @include media-up(md) {
-            letter-spacing: 1.25rem;
-        }
 
         &::after {
             content: "";
@@ -128,7 +122,8 @@
     }
 
     &__button {
-        > a,
+
+        >a,
         & .wp-block-button__link {
             display: inline-block;
             position: relative;
