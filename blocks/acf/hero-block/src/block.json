@@ -7,7 +7,7 @@
     "keywords": [
         "sms-block"
     ],
-    "version": "1.0.0",
+    "version": "1.1.1",
     "script": [
         "file:../build/block.js"
     ],
